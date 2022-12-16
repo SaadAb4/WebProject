@@ -2,12 +2,14 @@ from typing import ItemsView
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse, HttpRequest
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 import json
 from coursework3.models import User, Items
 
+
 def index(request):
-    return HttpResponse('hello world')
+    return HttpResponse('success')
 
 def login_user(request):
     if request.method == 'POST':
@@ -23,14 +25,16 @@ def login_user(request):
     else:
         return render(request, 'authentication/login.html')
 
+@csrf_exempt
 def user_api(request:HttpRequest) -> HttpResponse:
     if request.method == 'GET':
-        return JsonResponse({
+        return JsonResponse (json.dump({
             'User': [
-                User.to_dict()
+                user.to_dict()
                 for user in User.objects.all()
             ]
-        })
+        }))
+
     if request.method == 'POST':
         data = request.body
         data = json.loads(data.decode("utf-8"))
@@ -44,15 +48,16 @@ def user_api(request:HttpRequest) -> HttpResponse:
 def items_api(request:HttpRequest) -> HttpResponse:
     if request.method == 'GET':
         return JsonResponse({
-            'Items': [
-                Items.to_dict()
+            'items': [
+                items.to_dict()
+
                 for items in Items.objects.all()
             ]
         })
     if request.method == 'POST':
         data = request.body
         data = json.loads(data.decode("utf-8"))
-        user = Items.objects.create(
+        items = Items.objects.create(
             title = data['title'],
             description = data['description'],
             startingPrice = data['startingPrice'],

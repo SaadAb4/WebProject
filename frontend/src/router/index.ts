@@ -3,6 +3,8 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import LogIn from '../views/login.vue'
 import Profile from '../views/profilepage.vue'
+import postnewitem from '../views/postnewitem.vue'
+
 
 const routes = [
   {
@@ -20,7 +22,13 @@ const routes = [
     path: '/login', 
     name:"login",
     component: LogIn
+  },
+  {
+    path: '/postnewitem', 
+    name:"newitem",
+    component: postnewitem
   }
+
 ]
 
 const router = createRouter({

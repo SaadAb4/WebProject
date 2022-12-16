@@ -91,6 +91,10 @@ CSRF_TRUSTED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
+#CSRF_COOKIE_SECURE = True
+
+#SESSION_COOKIE_SECURE = True
+
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 

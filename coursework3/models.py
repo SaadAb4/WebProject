@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser, PermissionsMixin, UserManager
 from django.utils import timezone
 from datetime import datetime
+from PIL import Image
+import json
+
 
 class CustomUserManager(UserManager):
     def _create_user(self,email,password,**extra_fields):
@@ -29,7 +32,7 @@ class User(AbstractUser, PermissionsMixin):
     email = models.EmailField(blank=True, default='', unique=True)
     profile_image = models.ImageField(null=True, blank=True, upload_to="images/")
     #date_of_birth = models.DateField(null=True, blank=True)
-    test = models.BooleanField(default=True)
+    #test = models.BooleanField(default=True)
     
 
     objects = CustomUserManager()
@@ -63,7 +66,10 @@ class Items(models.Model):
     description = models.CharField(max_length=50, default='')
     startingPrice = models.DecimalField(max_digits=5, decimal_places=2)
     auctionEnd = models.DateTimeField(null=True,blank=True)
-    item_pic = models.ImageField(null=True, blank=True, upload_to="images/")
+    #item_pic = models.ImageField(null=True, blank=True, upload_to="images/")
+
+    def __str__(self) -> str:
+        return str(self.title)
 
     def to_dict(self):
         return {
@@ -72,5 +78,18 @@ class Items(models.Model):
             'description': self.description,
             'startingPrice': self.startingPrice,
             'auctionEnd': self.auctionEnd,
-            'item_pic' : self.item_pic,
+            #'item_pic' : self.item_pic,
         }
+
+class Questions(models.Model):
+    question = models.CharField(max_length=50, default='')
+    answer = models.CharField(max_length=50, default='')
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'question': self.question,
+            'answer': self.answer,
+            
+        }
+    

@@ -17,9 +17,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from coursework3.views import items_api
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('coursework3/', include('django.contrib.auth.urls')),
     path('coursework3/', include('coursework3.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    #path('api/users', include('coursework3.urls', views.user_api())),
+    path('', include('coursework3.urls'))
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
